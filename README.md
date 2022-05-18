@@ -1,6 +1,6 @@
 ![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
-Welcome USER_NAME,
+Welcome rhysmoggs,
 
 This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
 
@@ -36,73 +36,74 @@ You can now use the `heroku` CLI program - try running `heroku apps` to confirm 
 
 ------
 
-## Release History
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+deployment
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+1. use template from CI
+2. install two python packages. Flask and SQLAlchemy to work with Postgres databases. psycopg2 is necessary to work with Postgres database. In command line type: `pip3 install Flask-SQLAlchemy psycopg2`
+3. create "env.py" file
+4. make sure to have a .gitignore file and add env.py to that if not using CI's original template. All hidden and sensitive files/folders to be added here.
+5. in "env.py", type following:
+    ```
+    import os
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+    os.environ.setdefault("IP", "0.0.0.0")
+    os.environ.setdefault("PORT", "5000")
+    os.environ.setdefault("SECRET_KEY", "any_secret_key")
+    os.environ.setdefault("DEBUG", "True")
+    os.environ.setdefault("DEVELOPMENT", "True")
+    os.environ.setdefault("DB_URL", "postgresql:///cocktails")
+    ```
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+    The `any_secret_key` can be called whatever you wish: `os.environ.setdefault("SECRET_KEY", "any_secret_key")`
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+    make sure to change `os.environ.setdefault("DEBUG", "True")` to "False" before deploying/launching project.
+6. create a folder with the same name as your database (in this case, folder is named "cocktails") in the root of your project.
+7. within that newly created folder, create a file called "__init__.py"
+8. write the following in the new file:
+    ```
+    import os
+    from flask import Flask
+    from flask_sqlalchemy import SQLAlchemy
+    if os.path.exists("env.py"):
+        import env  # noqa
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+    app = Flask(__name__)
+    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URL")
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+    db = SQLAlchemy(app)
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+    from cocktails import routes  # noqa
+    ```
+9. create a "routes.py" file within the "cocktails" folder
+10. within that "routes.py" file, write the following:
+    ```
+    from flask import render_template
+    from cocktails import app, db
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+    @app.route("/")
+    def home():
+        return render_template("base.html")
+    ```
+11. in root of project, create "run.py" file
+12. within "run.py", write the following:
+    ```
+    import os
+    from cocktails import app
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
-
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
-
-------
-
-## FAQ about the uptime script
-
-**Why have you added this script?**
-
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
-
-**How will this affect me?**
-
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
-
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
-
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
-
-**So….?**
-
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
-
-**Can I opt out?**
-
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
-
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
-
-**Anything more?**
-
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
-
----
-
-Happy coding!
+    if __name__ == "__main__":
+        app.run(
+            host=os.environ.get("IP"),
+            port=int(os.environ.get("PORT")),
+            debug=os.environ.get("DEBUG")
+        )
+    ```
+13. within "cocktails" folder, create a new "templates" folder. This is where Flask will search for any html templates to be rendered.
+14. create a new file "base.html" within the "templates" folder
+15. within the "base.html" file, write whatever you wish to be presented on your website.
+16. in the terminal, write `python3 run.py` to launch the project 
