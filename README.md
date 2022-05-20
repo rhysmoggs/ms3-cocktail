@@ -1,46 +1,36 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
 
-Welcome rhysmoggs,
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+technologies used:
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
+- PsycoPG2 - database adapter. library for connecting Python to PostgreSQL.
+- SQLAlchemy - ORM lirbary
 
-## Gitpod Reminders
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+data schema:
 
-`python3 -m http.server`
+link both together through...
 
-A blue button should appear to click: _Make Public_,
 
-Another blue button should appear to click: _Open Browser_.
+    relational database:
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
 
-A blue button should appear to click: _Make Public_,
+    PostgreSQL - open-source, Object-Relational Databse Management System (ORDBMS). fre use, licencing? good for future projects or launching this one if needs be.
 
-Another blue button should appear to click: _Open Browser_.
+    primary key - A unique ID that identifies individual records regardless of any changes that occur
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
 
-To log into the Heroku toolbelt CLI:
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+    non-relational:
+    mongoDB - 
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
 
 ------
 
 
 
-deployment
+deployment of website:
 
-1. use template from CI
+1. use template from CI / copy this projects link/url?
 2. install two python packages. Flask and SQLAlchemy to work with Postgres databases. psycopg2 is necessary to work with Postgres database. In command line type: `pip3 install Flask-SQLAlchemy psycopg2`
 3. create "env.py" file
 4. make sure to have a .gitignore file and add env.py to that if not using CI's original template. All hidden and sensitive files/folders to be added here.
@@ -59,7 +49,9 @@ deployment
     The `any_secret_key` can be called whatever you wish: `os.environ.setdefault("SECRET_KEY", "any_secret_key")`
 
     make sure to change `os.environ.setdefault("DEBUG", "True")` to "False" before deploying/launching project.
-6. create a folder with the same name as your database (in this case, folder is named "cocktails") in the root of your project.
+
+    os.environ.setdefault("DB_URL", "postgresql:///cocktails") points to the databse to be created, in this case "cocktails".
+6. create a folder (in this case, folder is named "cocktails") in the root of your project.
 7. within that newly created folder, create a file called "__init__.py"
 8. write the following in the new file:
     ```
@@ -104,6 +96,45 @@ deployment
         )
     ```
 13. within "cocktails" folder, create a new "templates" folder. This is where Flask will search for any html templates to be rendered.
-14. create a new file "base.html" within the "templates" folder
+14. create a new file "base.html" within the "templates" folder.
 15. within the "base.html" file, write whatever you wish to be presented on your website.
-16. in the terminal, write `python3 run.py` to launch the project 
+16. in the terminal, write `python3 run.py` to launch the project.
+17. commit and push
+
+
+Setting up Databse:
+
+make sure you have postgreSQL installed locally if you are not using CI's template?
+set up the databse schema as follows:
+1. define our models by creating a "models.py" file within the "cocktails" folders
+2. write the following in the "models.py" file and create the tables:
+    ```
+    from cocktails import db
+
+
+    class Category(db.Model):
+        # schema for the Category model
+        id = db.Column(db.Integer, primary_key=True)
+        category_name = db.Column(db.String(25), unique=True, nullable=False)
+
+        def __repr__(self):
+            # __repr__ to represent itself in the form of a string
+            return self.category_name
+
+
+    class Users(db.Model):
+        # schema for the Task model
+        id = db.Column(db.Integer, primary_key=True)
+        user_name = db.Column(db.String(20), unique=True, nullable=False)
+        password = db.Column(db.String(260), nullable=False)
+
+        def __repr__(self):
+            # __repr__ to represent itself in the form of a string
+            return self.user_name
+    ```
+3. in "routes.py", import these newly created models:
+    ```
+    from cocktails.models import Category, Users
+    ```
+4.  log in to postgreSQL terminal
+5. CREATE DATABASE cocktails
