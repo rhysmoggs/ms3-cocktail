@@ -185,13 +185,26 @@ Make sure to that you have a MongoDB account.
     ```
     app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
     app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
+
+    mongo = PyMongo(app)
     ```
-15. Add `mongo = PyMongo(app)` too.
-16. In "routes.py", add and update to:
+15. In "routes.py", update entire file to be:
     ```
-    from flask import flash, render_template, request, redirect, session, url_for
+    from flask import (
+        flash, render_template,
+        request, redirect, session, url_for)
     from bson.objectid import ObjectId
+    from cocktails import app, db, mongo
+    from cocktails.models import Category, Users
+
+
+    @app.route("/")
+    @app.route("/get_recipes")
+    def get_recipes():
+        recipes = list(mongo.db.recipes.find())
+        return render_template("recipes.html", recipes=recipes)
     ```
+16. in terminal, write `touch cocktails/templates/recipes.html`
 
 
 Linking the databases:
@@ -203,7 +216,7 @@ Linking the databases:
 Deploy the application to Heroku:
 
 1. Create a "requirements.txt" by typing `pip3 freeze --local > requirements.txt` in the terminal. This lists what is necessary to run the project.
-2. Create a Procfile by typing `echo web: python app.py > Procfile` in the terminal. In the newly created "Procfile", check to see if a blank line appears under the written code. If there is, delete and save that change. It can cause issues with Heroku.
+2. Create a Procfile by typing `echo web: python run.py > Procfile` in the terminal. In the newly created "Procfile", check to see if a blank line appears under the written code. If there is, delete and save that change. It can cause issues with Heroku.
 3. Commit and push.
 4. On the Heroku website. Create a new app and name it. Choose the regeion closest to you.
 5. Create a new database on Heroku. Resources > Add-ons, search for heroku-postgreSQL and choose the 'Hobby Dev - Free' option, or whichever suits your needs.

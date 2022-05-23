@@ -12,7 +12,7 @@ class Category(db.Model):
 
 
 class Users(db.Model):
-    # schema for the Task model
+    # schema for the Users model
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(260), nullable=False)
