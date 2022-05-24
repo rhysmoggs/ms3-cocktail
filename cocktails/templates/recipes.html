@@ -2,16 +2,12 @@
 {% block content %}
 
     {% for recipe in recipes %}
-        {{ recipes.cocktail_name }}<br>
-        {{ recipes.category_name }}<br>
-        {{ recipes.cocktail_img }}<br>
-        {{ recipes.cocktail_description }}<br>
-        {{ recipes.created_by }}<br>
-        {{ recipes.main_ingredient }}<br>
-        {{ recipes.method }}<br>
-        {{ recipes.other_ingredients }}<br>
-        {{ recipes.prep_time }}<br>
-        {{ recipes.servings }}<br>
+        {{ recipe.cocktail_name }}<br>
+        {{ recipe.category_name }}<br>
+        {{ recipe.cocktail_img }}<br>
+        {{ recipe.cocktail_description }}<br>
+        {{ recipe.created_by }}<br>
+        {{ recipe.main_ingredient }}<br>
     {% endfor %}
 
 {% endblock %}

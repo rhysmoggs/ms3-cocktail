@@ -136,7 +136,7 @@ set up the databse schema as follows:
     ```
     from cocktails.models import Category, Users
     ```
-4.  log in to postgreSQL terminal by typing psql in terminal.
+4. log in to postgreSQL terminal by typing psql in terminal.
 5. type `CREATE DATABASE cocktails;`
 6. then `\c cocktails;` to connect to the newly created database.
 7. finally `\q` to exit.
