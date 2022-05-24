@@ -1,23 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipes</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
+
     {% for recipe in recipes %}
-        {{ recipe.cocktail_name }}<br>
-        {{ recipe.category_name }}<br>
-        {{ recipe.cocktail_img }}<br>
-        {{ recipe.cocktail_description }}<br>
-        {{ recipe.created_by }}<br>
-        {{ recipe.main_ingredient }}<br>
-        {{ recipe.method }}<br>
-        {{ recipe.other_ingredients }}<br>
-        {{ recipe.prep_time }}<br>
-        {{ recipe.servings }}<br>
+        {{ recipes.cocktail_name }}<br>
+        {{ recipes.category_name }}<br>
+        {{ recipes.cocktail_img }}<br>
+        {{ recipes.cocktail_description }}<br>
+        {{ recipes.created_by }}<br>
+        {{ recipes.main_ingredient }}<br>
+        {{ recipes.method }}<br>
+        {{ recipes.other_ingredients }}<br>
+        {{ recipes.prep_time }}<br>
+        {{ recipes.servings }}<br>
     {% endfor %}
-</body>
-</html>
+
+{% endblock %}
