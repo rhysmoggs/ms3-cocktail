@@ -165,10 +165,10 @@ Make sure to that you have a MongoDB account.
     cocktail_description: <string>
     created_by: <string>
     main_ingredient: <string>
+    method: <string>
     other_ingredients: <string>
-    prep_time: <string>
+    prep_time: <Int32> with a default value of "0"
     servings: <Int32> with a default value of "0"
-    method: <Int32> with a default value of "0"
     ```
 8. In the terminal, install dnspython `pip3 install dnspython`
 9. Install pymongo too `pip3 install flask-pymongo`
@@ -176,8 +176,8 @@ Make sure to that you have a MongoDB account.
 11. Copy the string.
 12. In the "env.py" file, add the following environment variables to the already present ones:
     ```
-    os.environ.setdefault("MONGO_URI", "mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>-4g3i1.mongodb.net/<DATABASE>?retryWrites=true&w=majority")
-    os.environ.setdefault("MONGO_DBNAME", "cocktails")
+    os.environ.setdefault("MONGO_URI", "mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>.1megs.mongodb.net/<DATABASE>?retryWrites=true&w=majority")
+    os.environ.setdefault("MONGO_DBNAME", "<DATABASE>")
     ```
     Make sure to insert your own information for `<USERNAME>`, `<PASSWORD>`, `<CLUSTER>` and `<DATABASE>`.
 13. In "__init__.py" add  `from flask_pymongo import PyMongo`.
