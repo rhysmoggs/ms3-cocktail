@@ -2,6 +2,7 @@
 {% block content %}
 
     {% for recipe in recipes %}
+        {{ recipe._id }}<br>
         {{ recipe.cocktail_name }}<br>
         {{ recipe.category_name }}<br>
         {{ recipe.cocktail_img }}<br>
