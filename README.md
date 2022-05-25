@@ -30,10 +30,10 @@ link both together through...
 
 deployment of website:
 
-1. use template from CI / copy this projects link/url?
+1. If you wish to - use Code Institute's template from here:  / copy this projects link/url?
 2. install two python packages. Flask and SQLAlchemy to work with Postgres databases. psycopg2 is necessary to work with Postgres database. In command line type: `pip3 install Flask-SQLAlchemy psycopg2`
 3. create "env.py" file
-4. make sure to have a ".gitignore" file and add "env.py" to that if not using CI's original template. All hidden and sensitive files/folders to be added here.
+4. Create a ".gitignore" file if you choose not to use Code Institute's template. Add "env.py" and the soon to be generated "__pyache__/" to it. All hidden and sensitive files/folders to be added here.
 5. in "env.py", type following:
     ```
     import os
@@ -43,14 +43,14 @@ deployment of website:
     os.environ.setdefault("SECRET_KEY", "any_secret_key")
     os.environ.setdefault("DEBUG", "True")
     os.environ.setdefault("DEVELOPMENT", "True")
-    os.environ.setdefault("DB_URL", "postgresql:///cocktails")
+    os.environ.setdefault("DB_URL", "postgresql:///<DATABASE>")
     ```
 
     The `any_secret_key` can be called whatever you wish: `os.environ.setdefault("SECRET_KEY", "any_secret_key")`or generate a random and secure password here: https://randomkeygen.com/
 
     make sure to change `os.environ.setdefault("DEBUG", "True")` to "False" before deploying/launching project.
 
-    os.environ.setdefault("DB_URL", "postgresql:///cocktails") points to the databse to be created, in this case "cocktails".
+    `<DATABASE>` points to the databse to be created, in this case "my_cocktails".
 6. create a folder (in this case, folder is named "cocktails") in the root of your project.
 7. within that newly created folder, create a file called "__init__.py"
 8. write the following in the new file:
@@ -99,7 +99,7 @@ deployment of website:
 14. create a new file "base.html" within the "templates" folder.
 15. within the "base.html" file, write whatever you wish to be presented on your website.
 16. in the terminal, write `python3 run.py` to launch the project.
-17. commit and push
+17. add, commit and push.
 
 
 Setting up Databse - postgreSQL database:
@@ -151,13 +151,13 @@ Setting up Database - MongoDB database:
 
 Make sure to that you have a MongoDB account.
 
-1. Create a cluster (https://www.mongodb.com/basics/clusters/mongodb-cluster-setup). This project uses a shared cluster. Choose the closest region to you which is free to use. Free cluster tier and then name your cluster ("myFirstCluster", in this project).
+1. Create a cluster (https://www.mongodb.com/basics/clusters/mongodb-cluster-setup). This project uses a shared cluster. Choose the closest region to you which is free to use. Free cluster tier and then name your `<CLUSTER>` ("myFirstCluster", in this project).
 2. In Database Access, add a new database user (https://www.mongodb.com/docs/atlas/security-add-mongodb-users/#add-database-users).
 3. In Network Access, click add IP address and choose 'Allow Access From Anywhere'. Input the IP of your hosts here to add further security.
-4. In the newly created Cluster, click on Create a Database and under Database Name, enter "cocktails"
-5. Under Collection, enter "recipes".
-6. within the cocktails database, click on Create Collection button and enter any other collections you wish to store.
-7. within each collection, click on Insert Document, and enter the key-value paris you wish to store in your document. For this project, the following key names and value data types were stored:
+4. In the newly created `<CLUSTER>`, click on Create a Database and under Database Name, enter a `<DATABASE>` name, ("my_cocktails", in this project)
+5. Under collection name, enter `<COLLECTION>` ("recipes", in this project).
+6. Within the `<DATABASE>` ("my_cocktails"), click on Create Collection button and enter any other collections you wish to store.
+7. Within each collection, click on Insert Document, and enter the key-value pairs you wish to store in your document. For this project, the following key names and value data types were stored:
     ```
     cocktail_name: <string>
     category_name: <string>
@@ -166,14 +166,14 @@ Make sure to that you have a MongoDB account.
     created_by: <string>
     main_ingredient: <string>
     method: <string>
-    other_ingredients: <string>
+    other_ingredients: <array>
     prep_time: <Int32> with a default value of "0"
     servings: <Int32> with a default value of "0"
     ```
 8. In the terminal, install dnspython `pip3 install dnspython`
 9. Install pymongo too `pip3 install flask-pymongo`
 10. on the mongo website, in your collection, connect your cluster. Choose 'Connect your application' and choose Python and your version (3.6 or later, in this project).
-11. Copy the string.
+11. Copy the connection string.
 12. In the "env.py" file, add the following environment variables to the already present ones:
     ```
     os.environ.setdefault("MONGO_URI", "mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>.1megs.mongodb.net/<DATABASE>?retryWrites=true&w=majority")
@@ -204,7 +204,10 @@ Make sure to that you have a MongoDB account.
         recipes = list(mongo.db.recipes.find())
         return render_template("recipes.html", recipes=recipes)
     ```
-16. in terminal, write `touch cocktails/templates/recipes.html`
+16. In terminal, write `touch cocktails/templates/recipes.html`
+17. In "recipes.html" add your website content here (use templates and link "base.html" to all other pages etc)
+18. In terminal, "python3 run.py" to view your work.
+19. add, commit, push.
 
 
 Linking the databases:
@@ -225,7 +228,7 @@ Deploy the application to Heroku:
     IP = 0.0.0.0
     PORT = 5000
     SECRET_KEY = your_secret_key_here
-    MONGO_URI = mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>-4g3i1.mongodb.net/<DATABASE>?retryWrites=true&w=majority
+    MONGO_URI = mongodb+srv://<USERNAME>:<PASSWORD>@<CLUSTER>.1megs.mongodb.net/<DATABASE>?retryWrites=true&w=majority
     MONGO_DBNAME = your_database_name_here
     ```
     You can add:
@@ -233,4 +236,36 @@ Deploy the application to Heroku:
     DEBUG = True
     ```
     temporarily but make sure to change to `False` when finalizing the app. Keep to `True` for error fixing during development.
-7. 
+7. In github, make sure you've added, commited and pushed your latest work.
+8. The following point is an extract taken from Code Institute:
+
+    ```Automated Deployments from GitHub disabled by Heroku
+    Due to a security issue, Heroku has disabled automated deployments from GitHub. Unfortunately, we have no indication if or when they will reactivate this. In order for you to deploy while this situation persists, please follow the steps below to deploy from your Gitpod workspace:
+
+    - Open the terminal.
+    - For those of you who are using MFA/2FA: please scroll down to see the additional steps required.
+    For those of you not using MFA/2FA: Log in to Heroku and enter your details.
+    command: heroku login -i
+    - Get your app name from heroku.
+    command: heroku apps
+    - Set the heroku remote. (Replace <app_name> with your actual app name and remove the <> characters)
+    command: heroku git:remote -a <app_name>
+    - Add and commit any changes to your code if applicable
+    command: git add . && git commit -m "Deploy to Heroku via CLI"
+    - Push to both GitHub and Heroku
+    command: git push origin main
+    command: git push heroku main
+
+    MFA/2FA enabled?
+    - Click on Account Settings (under the avatar menu) on the Heroku Dashboard.
+    - Scroll down to the API Key section and click Reveal. Copy the key.
+    - Back in your Gitpod workspace, enter the command: heroku_config , and enter your API key you copied when prompted.
+    - Continue from step 3 above. If you get prompted to log in at any point:
+      - Enter your Heroku username.
+      - Enter the API key you just copied.
+    
+    Need to deploy again?
+    You should just be able to add, commit and push, and if prompted enter your username and API key again.
+
+9. Click 'Open App' in heroku, and your project will be displayed here.
+10. Due to the automatic deployment issues on heroku's part, any changes to your app will need to manually be updated by following step 8. again.
