@@ -2,16 +2,39 @@
 
 technologies used:
 
+- python
+- JS
+- CSS3
+- HTML5
+
+- PostgreSQL - 
+- MongoDB - 
 - PsycoPG2 - database adapter. library for connecting Python to PostgreSQL.
 - SQLAlchemy - ORM lirbary
+- PyMongo - 
+- Flask - 
+- dnspython - 
+- Jinja2? - template
+- jquery
+- materialize(sp?) - 
+- fontawesome - icons
+- google fonts
+- heroku - 
+- git, gitpod, github
+
+- image editing websites/software here
+- balsamiq
+- era database/ design
 
 
-data schema:
+
+
+Data Schema:
 
 link both together through...
 
 
-    relational database:
+- Relational Database:
 
 
     PostgreSQL - open-source, Object-Relational Databse Management System (ORDBMS). fre use, licencing? good for future projects or launching this one if needs be.
@@ -20,8 +43,12 @@ link both together through...
 
 
 
-    non-relational:
+- Non-Relational Database:
     mongoDB - 
+
+
+
+
 
 
 ------
@@ -159,6 +186,7 @@ Make sure to that you have a MongoDB account.
 6. Within the `<DATABASE>` ("my_cocktails"), click on Create Collection button and enter any other collections you wish to store.
 7. Within each collection, click on Insert Document, and enter the key-value pairs you wish to store in your document. For this project, the following key names and value data types were stored:
     ```
+    _id: <ObjectId>
     cocktail_name: <string>
     category_name: <string>
     cocktail_img: <string>
