@@ -6,10 +6,10 @@ from cocktails.models import Category, Users
 
 
 @app.route("/")
-@app.route("/get_recipes")
-def get_recipes():
-    recipes = list(mongo.db.recipes.find())
-    return render_template("recipes.html", recipes=recipes)
+@app.route("/get_cocktails")
+def get_cocktails():
+    cocktails = list(mongo.db.cocktails.find())
+    return render_template("cocktails.html", cocktails=cocktails)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -88,6 +88,6 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/add_recipe")
-def add_recipe():
-    return render_template("add_recipe.html")
+@app.route("/add_cocktail")
+def add_cocktail():
+    return render_template("add_cocktail.html")

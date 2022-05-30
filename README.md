@@ -150,7 +150,7 @@ set up the databse schema as follows:
 
 
     class Users(db.Model):
-        # schema for the Task model
+        # schema for the Users model
         id = db.Column(db.Integer, primary_key=True)
         user_name = db.Column(db.String(20), unique=True, nullable=False)
         password = db.Column(db.String(260), nullable=False)
@@ -182,7 +182,7 @@ Make sure to that you have a MongoDB account.
 2. In Database Access, add a new database user (https://www.mongodb.com/docs/atlas/security-add-mongodb-users/#add-database-users).
 3. In Network Access, click add IP address and choose 'Allow Access From Anywhere'. Input the IP of your hosts here to add further security.
 4. In the newly created `<CLUSTER>`, click on Create a Database and under Database Name, enter a `<DATABASE>` name, ("my_cocktails", in this project)
-5. Under collection name, enter `<COLLECTION>` ("recipes", in this project).
+5. Under collection name, enter `<COLLECTION>` ("cocktails", in this project).
 6. Within the `<DATABASE>` ("my_cocktails"), click on Create Collection button and enter any other collections you wish to store.
 7. Within each collection, click on Insert Document, and enter the key-value pairs you wish to store in your document. For this project, the following key names and value data types were stored:
     ```
@@ -227,13 +227,13 @@ Make sure to that you have a MongoDB account.
 
 
     @app.route("/")
-    @app.route("/get_recipes")
-    def get_recipes():
-        recipes = list(mongo.db.recipes.find())
-        return render_template("recipes.html", recipes=recipes)
+    @app.route("/get_cocktails")
+    def get_cocktails():
+        cocktails = list(mongo.db.cocktails.find())
+        return render_template("cocktails.html", cocktails=cocktails)
     ```
-16. In terminal, write `touch cocktails/templates/recipes.html`
-17. In "recipes.html" add your website content here (use templates and link "base.html" to all other pages etc)
+16. In terminal, write `touch cocktails/templates/cocktails.html`
+17. In "cocktails.html" add your website content here (use templates and link "base.html" to all other pages etc)
 18. In terminal, "python3 run.py" to view your work.
 19. add, commit, push.
 
