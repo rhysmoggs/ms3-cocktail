@@ -14,12 +14,14 @@
         {{ recipe.servings }}<br>
     {% endfor %}
 
+    <h3 class="light-blue-text text-darken-4 center-align">All Cocktail</h3>
+
     <ul class="collapsible popout">
         {% for recipe in recipes %}
         <li>
             <div class="collapsible-header white-text light-blue darken-4 text-shadow">
                 <i class="fas fa-glass-martini-alt"></i>
-                <strong>{{ recipe.cocktail_name }}</strong> : {{ recipe.created_by }}
+                <strong>{{ recipe.cocktail_name }}</strong> by: {{ recipe.created_by }}
             </div>
             <div class="collapsible-body">
                 <strong>{{ recipe.category_name }}</strong>

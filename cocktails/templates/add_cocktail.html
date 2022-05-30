@@ -4,7 +4,56 @@
     <h3 class="light-blue-text text-darken-4 center-align">Add Cocktail</h3>
 
     <div class="row card-panel grey lighten-5">
-        <form class="col s12" method="POST" action="">
+        <form class="col s12" method="POST" action="{{ url_for('add_cocktail') }}">
+            <div class="row">
+                <div class="input-field col s12">
+                    <select>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select>
+                    <label>Materialize Select</label>
+                </div>
+
+                <div class="input-field col s12">
+                    <select multiple>
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="1">Option 1</option>
+                        <option value="2">Option 2</option>
+                        <option value="3">Option 3</option>
+                    </select>
+                    <label>Materialize Multiple Select</label>
+                </div>
+
+                <div class="input-field col s12 m6">
+                    <select class="icons">
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="" data-icon="images/sample-1.jpg">example 1</option>
+                        <option value="" data-icon="images/office.jpg">example 2</option>
+                        <option value="" data-icon="images/yuna.jpg">example 3</option>
+                    </select>
+                    <label>Images in select</label>
+                </div>
+                <div class="input-field col s12 m6">
+                    <select class="icons">
+                        <option value="" disabled selected>Choose your option</option>
+                        <option value="" data-icon="images/sample-1.jpg" class="left">example 1</option>
+                        <option value="" data-icon="images/office.jpg" class="left">example 2</option>
+                        <option value="" data-icon="images/yuna.jpg" class="left">example 3</option>
+                    </select>
+                    <label>Images in select</label>
+                </div>
+
+                <label>Browser Select</label>
+                <select class="browser-default">
+                    <option value="" disabled selected>Choose your option</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="3">Option 3</option>
+                </select>
+            </div>
+            <!-- cocktail name -->
             <div class="row">
                 <div class="input-field col s12">
                     <i class="fas fa-glass-martini-alt prefix light-blue-text text-darken-4"></i>
@@ -13,22 +62,30 @@
                     <label for="cocktail_name">Cocktail Name</label>
                 </div>
             </div>
+            <!-- cocktail category -->
             <div class="row">
-                <div class="input-field col s12">
-                    <i class="fas fa-glass-martini-alt prefix light-blue-text text-darken-4"></i>
-                    <input id="category_name" name="category_name" minlength="2" maxlength="25"
-                        type="text" class="validate" required>
-                    <label for="category_name">Category Name</label>
-                </div>
-            </div>
+				<div class="input-field col s12">
+                    <i class="fas fa-folder-open prefix light-blue-text text-darken-4"></i>
+					<select id="category_name" name="category_name" class="validate" required>
+                        <option value="" disabled selected>Choose Category</option>
+                        {% for category in categories %}
+                            <option value="{{ category.category_name }}">{{ category.category_name }}</option>
+                        {% endfor %}
+                    </select>
+					<label for="category_name">Cocktail Category</label>
+				</div>
+			</div>
+            <div class="row">
+            <!-- cocktail image -->
             <div class="row">
                 <div class="input-field col s12">
                     <i class="fas fa-glass-martini-alt prefix light-blue-text text-darken-4"></i>
                     <input id="cocktail_img" name="cocktail_img" minlength="2" maxlength="25"
                         type="text" class="validate" required>
-                    <label for="cocktail_img">Category Image</label>
+                    <label for="cocktail_img">Cocktail Image</label>
                 </div>
             </div>
+            <!-- cocktail description -->
             <div class="row">
                 <div class="input-field col s12">
                     <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
@@ -37,6 +94,7 @@
                     <label for="cocktail_description">Cocktail Description</label>
                 </div>
             </div>
+            <!-- created by -->
             <div class="row">
                 <div class="input-field col s12">
                     <i class="fas fa-glass-martini-alt prefix light-blue-text text-darken-4"></i>
@@ -45,6 +103,7 @@
                     <label for="main_ingredient">created_by</label>
                 </div>
             </div>
+            <!-- main ingredient -->
             <div class="row">
                 <div class="input-field col s12">
                     <i class="fas fa-glass-martini-alt prefix light-blue-text text-darken-4"></i>
@@ -53,6 +112,7 @@
                     <label for="main_ingredient">Main Ingredient</label>
                 </div>
             </div>
+            <!-- method -->
             <div class="row">
                 <div class="input-field col s12">
                     <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
@@ -61,6 +121,7 @@
                     <label for="method">Method</label>
                 </div>
             </div>
+            <!-- other ingredient -->
             <div class="row">
                 <div class="input-field col s12">
                     <i class="fas fa-glass-martini-alt prefix light-blue-text text-darken-4"></i>
@@ -77,12 +138,21 @@
                     <label for="prep_time">Preperation Time</label>
                 </div>
             </div>
+            <!-- servings -->
             <div class="row">
                 <div class="input-field col s12">
                     <i class="fas fa-glass-martini-alt prefix light-blue-text text-darken-4"></i>
                     <input id="servings" name="servings" minlength="2" maxlength="25"
                         type="text" class="validate" required>
                     <label for="servings">Servings</label>
+                </div>
+            </div>
+            <!-- submit button -->
+            <div class="row">
+                <div class="col s12 center-align">
+                    <button type="submit" class="btn-large light-blue darken-1 text-shadow">
+                        Add Cocktail <i class="fas fa-plus-square right"></i>
+                    </button>
                 </div>
             </div>
         </form>

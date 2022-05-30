@@ -90,4 +90,21 @@ def logout():
 
 @app.route("/add_cocktail")
 def add_cocktail():
-    return render_template("add_cocktail.html")
+    if "user" not in session:
+        flash("You need to be logged in to add a cocktail")
+        return redirect(url_for("get_cocktails"))
+
+    if request.method == "POST":
+        cocktail = {
+            "category_id": request.form.get("category_id"),
+            "cocktail_name": request.form.get("cocktail_name"),
+            "cocktail_description": request.form.get("cocktail_description"),
+            "other_ingredient": request.form.getlist("other_ingredient"),
+            "created_by": session["user"]
+        }
+        mongo.db.recipes.insert_one(cocktail)
+        flash("Cocktail Successfully Added")
+        return redirect(url_for("get_cocktail"))
+
+    categories = list(Category.query.order_by(Category.category_name).all())
+    return render_template("add_cocktail.html", categories=categories)
