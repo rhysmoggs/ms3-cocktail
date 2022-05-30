@@ -12,6 +12,21 @@ def get_cocktails():
     return render_template("cocktails.html", cocktails=cocktails)
 
 
+@app.route("/add_category", methods=["GET", "POST"])
+def add_category():
+
+    if "user" not in session or session["user"] != "admin":
+        flash("You must be admin to manage categories!")
+        return redirect(url_for("get_cocktails"))
+
+    if request.method == "POST":
+        category = Category(category_name=request.form.get("category_name"))
+        db.session.add(category)
+        db.session.commit()
+        return redirect(url_for("get_categories"))
+    return render_template("add_category.html")
+
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -104,7 +119,45 @@ def add_cocktail():
         }
         mongo.db.recipes.insert_one(cocktail)
         flash("Cocktail Successfully Added")
-        return redirect(url_for("get_cocktail"))
+        return redirect(url_for("get_cocktails"))
 
     categories = list(Category.query.order_by(Category.category_name).all())
     return render_template("add_cocktail.html", categories=categories)
+
+
+@app.route("/edit_cocktail/<cocktail_id>", methods=["GET", "POST"])
+def edit_cocktail(cocktail_id):
+    
+    cocktail = mongo.db.recipe.find_one({"_id": ObjectId(cocktail_id)})
+
+    if "user" not in session or session["user"] != cocktail["created_by"]:
+        flash("You can only edit your own cocktails!")
+        return redirect(url_for("get_cocktails"))
+
+    if request.method == "POST":
+        submit = {
+            "category_id": request.form.get("category_id"),
+            "cocktail_name": request.form.get("cocktail_name"),
+            "cocktail_description": request.form.get("cocktail_description"),
+            "other_ingredient": request.form.getlist("other_ingredient"),
+            "created_by": session["user"]
+        }
+        mongo.db.recipes.update({"_id": ObjectId(cocktail_id)}, submit)
+        flash("Cocktail Successfully Updated")
+
+    categories = list(Category.query.order_by(Category.category_name).all())
+    return render_template("edit_cocktail.html", cocktail=cocktail, categories=categories)
+
+
+@app.route("/delete_cocktail/<cocktail_id>")
+def delete_cocktail(cocktail_id):
+
+    cocktail = mongo.db.recipes.find_one({"_id": ObjectId(cocktail_id)})
+
+    if "user" not in session or session["user"] != cocktail["created_by"]:
+        flash("You can only delete your own cocktails!")
+        return redirect(url_for("get_cocktails"))
+
+    mongo.db.recipes.remove({"_id": ObjectId(cocktail_id)})
+    flash("Cocktail Successfully Deleted")
+    return redirect(url_for("get_cocktails"))
