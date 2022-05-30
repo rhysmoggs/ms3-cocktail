@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h2>I'm extending the base template!</h2>
-
     {% for recipe in recipes %}
         {{ recipe.cocktail_name }}<br>
         {{ recipe.category_name }}<br>
@@ -15,5 +13,26 @@
         {{ recipe.prep_time }}<br>
         {{ recipe.servings }}<br>
     {% endfor %}
+
+    <ul class="collapsible popout">
+        {% for recipe in recipes %}
+        <li>
+            <div class="collapsible-header white-text light-blue darken-4 text-shadow">
+                <i class="fas fa-glass-martini-alt"></i>
+                <strong>{{ recipe.cocktail_name }}</strong> : {{ recipe.created_by }}
+            </div>
+            <div class="collapsible-body">
+                <strong>{{ recipe.category_name }}</strong>
+                <p>{{ recipe.cocktail_description }}</p>
+                <p>{{ recipe.cocktail_img }}</p>
+                <p>{{ recipe.main_ingredient }}</p>
+                <p>{{ recipe.method }}</p>
+                <p>{{ recipe.other_ingredient }}</p>
+                <p>{{ recipe.prep_time }}</p>
+                <p>{{ recipe.servings }}</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
 
 {% endblock %}
