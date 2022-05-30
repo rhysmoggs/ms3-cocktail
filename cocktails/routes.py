@@ -59,6 +59,7 @@ def login():
                             "profile", username=session["user"]))
             else:
                 # invalid password match
+                # better for brute forcing by not hinting which is incorrect.
                 flash("Incorrect Username and/or Password")
                 return redirect(url_for("login"))
 
@@ -68,3 +69,12 @@ def login():
             return redirect(url_for("login"))
 
     return render_template("login.html")
+
+
+@app.route("/profile/<username>", methods=["GET", "POST"])
+def profile(username):
+        
+    if "user" in session:
+        return render_template("profile.html", username=session["user"])
+
+    return redirect(url_for("login"))
