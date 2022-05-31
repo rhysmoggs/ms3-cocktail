@@ -8,7 +8,7 @@ from cocktails.models import Category, Users
 @app.route("/")
 @app.route("/get_cocktails")
 def get_cocktails():
-    cocktails = list(mongo.db.recipes.find())
+    cocktails = list(mongo.db.cocktails.find())
     return render_template("cocktails.html", cocktails=cocktails)
 
 
@@ -103,7 +103,7 @@ def add_cocktail():
             "other_ingredient": request.form.getlist("other_ingredient"),
             "created_by": session["user"]
         }
-        mongo.db.recipes.insert_one(cocktail)
+        mongo.db.cocktails.insert_one(cocktail)
         flash("Cocktail Successfully Added")
         return redirect(url_for("get_cocktails"))
 
@@ -114,7 +114,7 @@ def add_cocktail():
 @app.route("/edit_cocktail/<cocktail_id>", methods=["GET", "POST"])
 def edit_cocktail(cocktail_id):
 
-    cocktail = mongo.db.recipes.find_one({"_id": ObjectId(cocktail_id)})
+    cocktail = mongo.db.cocktails.find_one({"_id": ObjectId(cocktail_id)})
 
     if "user" not in session or session["user"] != cocktail["created_by"]:
         flash("You can only edit your own cocktails!")
@@ -129,7 +129,7 @@ def edit_cocktail(cocktail_id):
             "other_ingredient": request.form.getlist("other_ingredient"),
             "created_by": session["user"]
         }
-        mongo.db.recipes.update({"_id": ObjectId(cocktail_id)}, submit)
+        mongo.db.cocktails.update({"_id": ObjectId(cocktail_id)}, submit)
         flash("Cocktail Successfully Updated")
 
     categories = list(Category.query.order_by(Category.category_name).all())
@@ -139,13 +139,13 @@ def edit_cocktail(cocktail_id):
 @app.route("/delete_cocktail/<cocktail_id>")
 def delete_cocktail(cocktail_id):
 
-    cocktail = mongo.db.recipes.find_one({"_id": ObjectId(cocktail_id)})
+    cocktail = mongo.db.cocktails.find_one({"_id": ObjectId(cocktail_id)})
 
     if "user" not in session or session["user"] != cocktail["created_by"]:
         flash("You can only delete your own cocktails!")
         return redirect(url_for("get_cocktails"))
 
-    mongo.db.recipes.remove({"_id": ObjectId(cocktail_id)})
+    mongo.db.cocktails.remove({"_id": ObjectId(cocktail_id)})
     flash("Cocktail Successfully Deleted")
     return redirect(url_for("get_cocktails"))
 
@@ -201,6 +201,6 @@ def delete_category(category_id):
     category = Category.query.get_or_404(category_id)
     db.session.delete(category)
     db.session.commit()
-    mongo.db.recipes.delete_many({"category_id": str(category_id)})
+    mongo.db.cocktails.delete_many({"category_id": str(category_id)})
     flash("Category Deleted")
     return redirect(url_for("get_categories"))
