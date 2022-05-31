@@ -98,10 +98,14 @@ def add_cocktail():
         cocktail = {
             "category_id": request.form.get("category_id"),
             "cocktail_name": request.form.get("cocktail_name"),
+            "cocktail_img": request.form.get("cocktail_img"),
             "cocktail_description": request.form.get("cocktail_description"),
             "main_ingredient": request.form.get("main_ingredient"),
+            "created_by": session["user"],
+            "method": request.form.get("method"),
             "other_ingredient": request.form.getlist("other_ingredient"),
-            "created_by": session["user"]
+            "prep_time": request.form.get("prep_time"),
+            "servings": request.form.get("servings")
         }
         mongo.db.cocktails.insert_one(cocktail)
         flash("Cocktail Successfully Added")
@@ -124,12 +128,16 @@ def edit_cocktail(cocktail_id):
         submit = {
             "category_id": request.form.get("category_id"),
             "cocktail_name": request.form.get("cocktail_name"),
+            "cocktail_img": request.form.get("cocktail_img"),
             "cocktail_description": request.form.get("cocktail_description"),
             "main_ingredient": request.form.get("main_ingredient"),
+            "created_by": session["user"],
+            "method": request.form.get("method"),
             "other_ingredient": request.form.getlist("other_ingredient"),
-            "created_by": session["user"]
+            "prep_time": request.form.get("prep_time"),
+            "servings": request.form.get("servings")
         }
-        mongo.db.cocktails.update({"_id": ObjectId(cocktail_id)}, submit)
+        mongo.db.cocktails.update_one({"_id": ObjectId(cocktail_id)}, {"$set": submit})
         flash("Cocktail Successfully Updated")
 
     categories = list(Category.query.order_by(Category.category_name).all())
@@ -145,7 +153,7 @@ def delete_cocktail(cocktail_id):
         flash("You can only delete your own cocktails!")
         return redirect(url_for("get_cocktails"))
 
-    mongo.db.cocktails.remove({"_id": ObjectId(cocktail_id)})
+    mongo.db.cocktails.delete_one({"_id": ObjectId(cocktail_id)})
     flash("Cocktail Successfully Deleted")
     return redirect(url_for("get_cocktails"))
 
