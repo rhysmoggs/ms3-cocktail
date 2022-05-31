@@ -12,68 +12,23 @@ def get_cocktails():
     return render_template("cocktails.html", cocktails=cocktails)
 
 
-@app.route("/add_category", methods=["GET", "POST"])
-def add_category():
-
-    if "user" not in session or session["user"] != "admin":
-        flash("You must be admin to manage categories!")
-        return redirect(url_for("get_cocktails"))
-
-    if request.method == "POST":
-        category = Category(category_name=request.form.get("category_name"))
-        db.session.add(category)
-        db.session.commit()
-        flash("New Category Added")
-        return redirect(url_for("get_categories"))
-    return render_template("add_category.html")
-
-
-@app.route("/edit_category/<int:category_id>", methods=["GET", "POST"])
-def edit_category(category_id):
-    if "user" not in session or session["user"] != "admin":
-        flash("You must be admin to manage categories!")
-        return redirect(url_for("get_cocktails"))
-    
-    category = Category.query.get_or_404(category_id)
-    if request.method == "POST":
-        category.category_name = request.form.get("category_name")
-        db.session.commit()
-        flash("Category Updated")
-        return redirect(url_for("get_categories"))
-    return render_template("edit_category.html", category=category)
-
-
-@app.route("/delete_category/<int:category_id>")
-def delete_category(category_id):
-    if session["user"] != "admin":
-        flash("You must be admin to manage categories!")
-        return redirect(url_for("get_cocktails"))
-
-    category = Category.query.get_or_404(category_id)
-    db.session.delete(category)
-    db.session.commit()
-    mongo.db.recipes.delete_many({"category_id": str(category_id)})
-    flash("Category Deleted")
-    return redirect(url_for("get_categories"))
-
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
         # check if username already exists in db
         existing_user = Users.query.filter(Users.user_name == \
                                            request.form.get("username").lower()).all()
-        
+
         if existing_user:
             flash("Username already exists")
             return redirect(url_for("register"))
-        
+
         # create a dictionary
         user = Users(
             user_name=request.form.get("username").lower(),
             password=generate_password_hash(request.form.get("password"))
         )
-        
+
         db.session.add(user)
         db.session.commit()
 
@@ -118,7 +73,7 @@ def login():
 
 @app.route("/profile/<username>", methods=["GET", "POST"])
 def profile(username):
-        
+
     if "user" in session:
         return render_template("profile.html", username=session["user"])
 
@@ -204,3 +159,48 @@ def get_categories():
 
     categories = list(Category.query.order_by(Category.category_name).all())
     return render_template("categories.html", categories=categories)
+
+
+@app.route("/add_category", methods=["GET", "POST"])
+def add_category():
+
+    if "user" not in session or session["user"] != "admin":
+        flash("You must be admin to manage categories!")
+        return redirect(url_for("get_cocktails"))
+
+    if request.method == "POST":
+        category = Category(category_name=request.form.get("category_name"))
+        db.session.add(category)
+        db.session.commit()
+        flash("New Category Added")
+        return redirect(url_for("get_categories"))
+    return render_template("add_category.html")
+
+
+@app.route("/edit_category/<int:category_id>", methods=["GET", "POST"])
+def edit_category(category_id):
+    if "user" not in session or session["user"] != "admin":
+        flash("You must be admin to manage categories!")
+        return redirect(url_for("get_cocktails"))
+
+    category = Category.query.get_or_404(category_id)
+    if request.method == "POST":
+        category.category_name = request.form.get("category_name")
+        db.session.commit()
+        flash("Category Updated")
+        return redirect(url_for("get_categories"))
+    return render_template("edit_category.html", category=category)
+
+
+@app.route("/delete_category/<int:category_id>")
+def delete_category(category_id):
+    if session["user"] != "admin":
+        flash("You must be admin to manage categories!")
+        return redirect(url_for("get_cocktails"))
+
+    category = Category.query.get_or_404(category_id)
+    db.session.delete(category)
+    db.session.commit()
+    mongo.db.recipes.delete_many({"category_id": str(category_id)})
+    flash("Category Deleted")
+    return redirect(url_for("get_categories"))
