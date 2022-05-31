@@ -1,19 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-    {% for recipe in recipes %}
-        {{ recipe.cocktail_name }}<br>
-        {{ recipe.category_name }}<br>
-        {{ recipe.cocktail_img }}<br>
-        {{ recipe.cocktail_description }}<br>
-        {{ recipe.created_by }}<br>
-        {{ recipe.main_ingredient }}<br>
-        {{ recipe.method }}<br>
-        {{ recipe.other_ingredient }}<br>
-        {{ recipe.prep_time }}<br>
-        {{ recipe.servings }}<br>
-    {% endfor %}
-
     <h3 class="light-blue-text text-darken-4 center-align">All Cocktails/ The Bar</h3>
 
     <ul class="collapsible popout">

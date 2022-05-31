@@ -8,7 +8,7 @@ from cocktails.models import Category, Users
 @app.route("/")
 @app.route("/get_cocktails")
 def get_cocktails():
-    cocktails = list(mongo.db.cocktails.find())
+    cocktails = list(mongo.db.recipes.find())
     return render_template("cocktails.html", cocktails=cocktails)
 
 
@@ -88,7 +88,7 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/add_cocktail")
+@app.route("/add_cocktail", methods=["GET", "POST"])
 def add_cocktail():
     if "user" not in session:
         flash("You need to be logged in to add a cocktail")
