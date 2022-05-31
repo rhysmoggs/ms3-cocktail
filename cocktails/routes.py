@@ -23,6 +23,7 @@ def add_category():
         category = Category(category_name=request.form.get("category_name"))
         db.session.add(category)
         db.session.commit()
+        flash("New Category Added")
         return redirect(url_for("get_categories"))
     return render_template("add_category.html")
 
@@ -114,6 +115,7 @@ def add_cocktail():
             "category_id": request.form.get("category_id"),
             "cocktail_name": request.form.get("cocktail_name"),
             "cocktail_description": request.form.get("cocktail_description"),
+            "main_ingredient": request.form.get("main_ingredient"),
             "other_ingredient": request.form.getlist("other_ingredient"),
             "created_by": session["user"]
         }
@@ -127,7 +129,7 @@ def add_cocktail():
 
 @app.route("/edit_cocktail/<cocktail_id>", methods=["GET", "POST"])
 def edit_cocktail(cocktail_id):
-    
+
     cocktail = mongo.db.recipe.find_one({"_id": ObjectId(cocktail_id)})
 
     if "user" not in session or session["user"] != cocktail["created_by"]:
@@ -139,6 +141,7 @@ def edit_cocktail(cocktail_id):
             "category_id": request.form.get("category_id"),
             "cocktail_name": request.form.get("cocktail_name"),
             "cocktail_description": request.form.get("cocktail_description"),
+            "main_ingredient": request.form.get("main_ingredient"),
             "other_ingredient": request.form.getlist("other_ingredient"),
             "created_by": session["user"]
         }
@@ -161,3 +164,14 @@ def delete_cocktail(cocktail_id):
     mongo.db.recipes.remove({"_id": ObjectId(cocktail_id)})
     flash("Cocktail Successfully Deleted")
     return redirect(url_for("get_cocktails"))
+
+
+@app.route("/get_categories")
+def get_categories():
+
+    if "user" not in session or session["user"] != "admin":
+        flash("You must be admin to manage categories!")
+        return redirect(url_for("get_cocktails"))
+
+    categories = list(Category.query.order_by(Category.category_name).all())
+    return render_template("categories.html", categories=categories)
