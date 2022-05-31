@@ -13,6 +13,7 @@ technologies used:
 - SQLAlchemy - ORM lirbary
 - PyMongo - 
 - Flask - 
+- Flash - 
 - dnspython - 
 - Jinja2? - template
 - jquery
