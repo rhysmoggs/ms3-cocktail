@@ -38,14 +38,14 @@
                 </div>
             </div>
             <div class="collapsible-body">
-                <strong>{{ cocktail.category_name }}</strong>
+                <strong>Category: {{ cocktail.category_name }}</strong>
                 <p>{{ cocktail.cocktail_description }}</p>
                 <p>{{ cocktail.cocktail_img }}</p>
-                <p>{{ cocktail.main_ingredient }}</p>
-                <p>{{ cocktail.method }}</p>
-                <p>{{ cocktail.other_ingredient }}</p>
-                <p>{{ cocktail.prep_time }}</p>
-                <p>{{ cocktail.servings }}</p>
+                <p>Main Ingredient: {{ cocktail.main_ingredient }}</p>
+                <p>Method: {{ cocktail.method }}</p>
+                <p>Other Ingredients: {{ cocktail.other_ingredient }}</p>
+                <p>Prep: {{ cocktail.prep_time }}</p>
+                <p>Servings: {{ cocktail.servings }}</p>
             </div>
         </li>
         {% endfor %}
