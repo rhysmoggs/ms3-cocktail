@@ -16,22 +16,21 @@
             </div>
             <!-- cocktail category -->
             <div class="row">
-				<div class="input-field col s12">
+                <div class="input-field col s12">
                     <i class="fas fa-folder-open prefix light-blue-text text-darken-4"></i>
-					<select id="category_name" name="category_name" class="validate" required>
+                    <select id="category_id" name="category_id" class="validate" required>
                         <option value="" disabled>Choose Category</option>
                         {% for category in categories %}
-                            {% if category.category_name == cocktail.category_name %}
-                                <option value="{{ category.category_name }}" selected>{{ category.category_name }}</option>
+                            {% if category.id == cocktail.category_id | int %}
+                                <option value="{{ category.id }}" selected>{{ category.category_name }}</option>
                             {% else %}
-                                <option value="{{ category.category_name }}">{{ category.category_name }}</option>
+                                <option value="{{ category.id }}">{{ category.category_name }}</option>
                             {% endif %}
                         {% endfor %}
                     </select>
-					<label for="category_name">Cocktail Category</label>
-				</div>
-			</div>
-            <div class="row">
+                    <label for="category_name">Cocktail Category</label>
+                </div>
+            </div>
             <!-- cocktail image -->
             <div class="row">
                 <div class="input-field col s12">
