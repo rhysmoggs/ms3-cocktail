@@ -80,7 +80,7 @@ deployment of website:
 
     `<DATABASE>` points to the databse to be created, in this case "my_cocktails".
 6. create a folder (in this case, folder is named "cocktails") in the root of your project.
-7. within that newly created folder, create a file called "__init__.py"
+7. within that newly created folder, create a file called `__init__.py`
 8. write the following in the new file:
     ```
     import os
@@ -251,7 +251,7 @@ Deploy the application to Heroku:
 2. Create a Procfile by typing `echo web: python run.py > Procfile` in the terminal. In the newly created "Procfile", check to see if a blank line appears under the written code. If there is, delete and save that change. It can cause issues with Heroku.
 3. Commit and push.
 4. On the Heroku website. Create a new app and name it. Choose the regeion closest to you.
-5. Create a new database on Heroku. Resources > Add-ons, search for heroku-postgreSQL and choose the 'Hobby Dev - Free' option, or whichever suits your needs.
+5. Create a new database on Heroku. Resources > Add-ons, search for heroku postgres and choose the 'Hobby Dev - Free' option, or whichever suits your needs.
 6. Once confirmed, go to Settings > Config Vars > Reveal Config Vars, and input the following:
     ```
     IP = 0.0.0.0
@@ -265,8 +265,35 @@ Deploy the application to Heroku:
     DEBUG = True
     ```
     temporarily but make sure to change to `False` when finalizing the app. Keep to `True` for error fixing during development.
-7. In github, make sure you've added, commited and pushed your latest work.
-8. The following point is an extract taken from Code Institute:
+7. In your Config Vars in Heroku, if DATABASE_URL starts with `postgres` instead of `postgresql`, update your `__init__.py` file to:
+```
+import os
+import re
+from flask import Flask
+from flask_pymongo import PyMongo
+from flask_sqlalchemy import SQLAlchemy
+if os.path.exists("env.py"):
+    import env  # noqa
+
+
+app = Flask(__name__)
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
+app.config["MONGO_DBNAME"] = os.environ.get("MONGO_DBNAME")
+app.config["MONGO_URI"] = os.environ.get("MONGO_URI")
+
+uri = os.environ.get("DATABASE_URL")
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+app.config["SQLALCHEMY_DATABASE_URI"] = uri  # heroku
+
+db = SQLAlchemy(app)
+mongo = PyMongo(app)
+
+from cocktails import routes  # noqa
+```
+This wil ensure that the database is correctly linked.
+8. In github, make sure you've added, commited and pushed your latest work.
+9. The following point is an extract taken from Code Institute:
 
     ```Automated Deployments from GitHub disabled by Heroku
     Due to a security issue, Heroku has disabled automated deployments from GitHub. Unfortunately, we have no indication if or when they will reactivate this. In order for you to deploy while this situation persists, please follow the steps below to deploy from your Gitpod workspace:
@@ -296,5 +323,8 @@ Deploy the application to Heroku:
     Need to deploy again?
     You should just be able to add, commit and push, and if prompted enter your username and API key again.
 
-9. Click 'Open App' in heroku, and your project will be displayed here.
-10. Due to the automatic deployment issues on heroku's part, any changes to your app will need to manually be updated by following step 8. again.
+10. Click 'Open App' in heroku, and your project will be displayed here.
+11. Due to the automatic deployment issues on heroku's part, any changes to your app will need to manually be updated by following step 8. again.
+12. We need to create our tables on the Heroku database. In Heroku, on the top-right, clcik More > Run Console.
+13. Type `python3`
+14. Type `from cocktails import db` then `db.create_all()` then `exit()`
