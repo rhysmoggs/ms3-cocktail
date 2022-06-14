@@ -228,10 +228,8 @@ Make sure to that you have a MongoDB account.
 
 
     @app.route("/")
-    @app.route("/get_cocktails")
-    def get_cocktails():
-        cocktails = list(mongo.db.cocktails.find())
-        return render_template("cocktails.html", cocktails=cocktails)
+    def home():
+        return render_template("cocktails.html")
     ```
 16. In terminal, write `touch cocktails/templates/cocktails.html`
 17. In "cocktails.html" add your website content here (use templates and link "base.html" to all other pages etc)
@@ -328,3 +326,5 @@ This wil ensure that the database is correctly linked.
 12. We need to create our tables on the Heroku database. In Heroku, on the top-right, clcik More > Run Console.
 13. Type `python3`
 14. Type `from cocktails import db` then `db.create_all()` then `exit()`
+15. In GitHub, change your `env.py` to reflet the newly created database by deleting `os.environ.setdefault("DB_URL", "postgresql:///cocktails")` and inserting `os.environ.setdefault("DATABASE_URL", "<heroku string>")` from Heroku's config vars.
+
