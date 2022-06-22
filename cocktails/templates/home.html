@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+    <h3 class="light-blue-text text-darken-4 center-align">MS3 Cocktails</h3>
+
+    <!-- attempt at filtering categories and displaying them -->
+    <div class="row">
+        {% for category in categories %}
+        <div class="col s12 m3">
+            <div class="card light-blue darken-4 text-shadow center-align">
+                <div class="card-content white-text">
+                    <span class="card-title">{{ category.category_name }}</span>
+                </div>
+                <div class="card-action">
+                    <a href="{{ url_for('filter_category', category_id=category.id) }}" class="btn green accent-4">Search</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

@@ -5,18 +5,97 @@ from cocktails import app, db, mongo
 from cocktails.models import Category, Users
 
 
-@app.route("/")
-@app.route("/get_cocktails")
-def get_cocktails():
-    cocktails = list(mongo.db.cocktails.find())
-    return render_template("cocktails.html", cocktails=cocktails)
+# @app.route("/")
+# @app.route("/home")
+# def home():
+#     cocktails = list(mongo.db.cocktails.find())
+#     return render_template("home.html", cocktails=cocktails)
 
+
+@app.route("/")
+@app.route("/home")
+def home():
+    categories = list(Category.query.order_by(Category.category_name).all())
+    cocktails = list(mongo.db.cocktails.find())
+    return render_template("home.html", cocktails=cocktails, categories=categories)
+
+
+@app.route("/all_cocktails")
+def all_cocktails():
+    cocktails = list(mongo.db.cocktails.find())
+    return render_template("all_cocktails.html", cocktails=cocktails)
+
+
+########################
+@app.route("/filter_category/<int:category_id>")
+def filter_category(category_id):
+
+    # tests, no idea
+    # categories = list(Category.query.order_by(Category.category_name).all())
+    # categories = Category.query.filter_by(id='2').first()
+    # category.category_name = request.form.get("category_name")
+    # category = Category(category_name=request.form.get("category_name"))
+    # categories = Category.query.filter(Category.category_name == 'sours').all()
+
+    # this works to get a specific category, ie 15 = sours
+    # cocktails = list(mongo.db.cocktails.find({"category_id": "15"}))
+
+    # dunno
+    # cocktails = list(mongo.db.cocktails.find({"category_id": "category.id"}))
+    # cocktails = list(mongo.db.cocktails.find({"category_id": ObjectId(category_id)}))
+
+    # finds the category that you click on:
+    category = Category.query.get_or_404(category_id)
+    print(category)
+
+    # tests,
+    # category.category_name = request.form.get("category_name")
+    # print()
+    # cocktails = list(mongo.db.cocktails.find("category_name"))
+    # cocktails = list(mongo.db.cocktails.find(category))
+    
+    # gives a list of cocktails but not specific to the category
+    # cocktails = list(mongo.db.cocktails.find())
+
+    cocktails = list(mongo.db.cocktails.find())
+    print(cocktails)
+
+    # @app.route("/view_cocktail/<cocktail_id>")
+    # def view_cocktail(cocktail_id):
+    # cocktail = mongo.db.cocktails.find_one({"_id": ObjectId(cocktail_id)})
+    # return render_template("view_cocktail.html", cocktail=cocktail)
+
+
+    # cocktails = list(mongo.db.cocktails.find({“category_id”: {“$in”: category_id}}))
+    # print()
+    # tasks = list(mongo.db.tasks.find({"$text": {"$search": query}}))
+    # task = mongo.db.tasks.find_one({"_id": ObjectId(task_id)})
+
+    return render_template("filter_category.html", cocktails=cocktails)
+
+
+# @app.route("/edit_category/<int:category_id>", methods=["GET", "POST"])
+# def edit_category(category_id):
+#     if "user" not in session or session["user"] != "admin":
+#         flash("You must be admin to manage categories!")
+#         return redirect(url_for("all_cocktails"))
+
+#     category = Category.query.get_or_404(category_id)
+#     if request.method == "POST":
+#         category.category_name = request.form.get("category_name")
+#         db.session.commit()
+#         flash("Category Updated")
+#         return redirect(url_for("get_categories"))
+#     return render_template("edit_category.html", category=category)
+
+
+########################
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
     query = request.form.get("query")
     cocktails = list(mongo.db.cocktails.find({"$text": {"$search": query}}))
-    return render_template("cocktails.html", cocktails=cocktails)
+    return render_template("all_cocktails.html", cocktails=cocktails)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -82,7 +161,8 @@ def login():
 def profile(username):
 
     if "user" in session:
-        return render_template("profile.html", username=session["user"])
+        cocktails = list(mongo.db.cocktails.find())
+        return render_template("profile.html", username=session["user"], cocktails=cocktails)
 
     return redirect(url_for("login"))
 
@@ -99,7 +179,7 @@ def logout():
 def add_cocktail():
     if "user" not in session:
         flash("You need to be logged in to add a cocktail")
-        return redirect(url_for("get_cocktails"))
+        return redirect(url_for("all_cocktails"))
 
     if request.method == "POST":
         cocktail = {
@@ -116,7 +196,7 @@ def add_cocktail():
         }
         mongo.db.cocktails.insert_one(cocktail)
         flash("Cocktail Successfully Added")
-        return redirect(url_for("get_cocktails"))
+        return redirect(url_for("all_cocktails"))
 
     categories = list(Category.query.order_by(Category.category_name).all())
     return render_template("add_cocktail.html", categories=categories)
@@ -129,7 +209,7 @@ def edit_cocktail(cocktail_id):
 
     if "user" not in session or session["user"] != cocktail["created_by"]:
         flash("You can only edit your own cocktails!")
-        return redirect(url_for("get_cocktails"))
+        return redirect(url_for("all_cocktails"))
 
     if request.method == "POST":
         submit = {
@@ -158,11 +238,18 @@ def delete_cocktail(cocktail_id):
 
     if "user" not in session or session["user"] != cocktail["created_by"]:
         flash("You can only delete your own cocktails!")
-        return redirect(url_for("get_cocktails"))
+        return redirect(url_for("all_cocktails"))
 
     mongo.db.cocktails.delete_one({"_id": ObjectId(cocktail_id)})
     flash("Cocktail Successfully Deleted")
-    return redirect(url_for("get_cocktails"))
+    return redirect(url_for("all_cocktails"))
+
+
+@app.route("/view_cocktail/<cocktail_id>")
+def view_cocktail(cocktail_id):
+
+    cocktail = mongo.db.cocktails.find_one({"_id": ObjectId(cocktail_id)})
+    return render_template("view_cocktail.html", cocktail=cocktail)
 
 
 @app.route("/get_categories")
@@ -170,7 +257,7 @@ def get_categories():
 
     if "user" not in session or session["user"] != "admin":
         flash("You must be admin to manage categories!")
-        return redirect(url_for("get_cocktails"))
+        return redirect(url_for("all_cocktails"))
 
     categories = list(Category.query.order_by(Category.category_name).all())
     return render_template("categories.html", categories=categories)
@@ -181,7 +268,7 @@ def add_category():
 
     if "user" not in session or session["user"] != "admin":
         flash("You must be admin to manage categories!")
-        return redirect(url_for("get_cocktails"))
+        return redirect(url_for("all_cocktails"))
 
     if request.method == "POST":
         category = Category(category_name=request.form.get("category_name"))
@@ -196,7 +283,7 @@ def add_category():
 def edit_category(category_id):
     if "user" not in session or session["user"] != "admin":
         flash("You must be admin to manage categories!")
-        return redirect(url_for("get_cocktails"))
+        return redirect(url_for("all_cocktails"))
 
     category = Category.query.get_or_404(category_id)
     if request.method == "POST":
@@ -211,7 +298,7 @@ def edit_category(category_id):
 def delete_category(category_id):
     if session["user"] != "admin":
         flash("You must be admin to manage categories!")
-        return redirect(url_for("get_cocktails"))
+        return redirect(url_for("all_cocktails"))
 
     category = Category.query.get_or_404(category_id)
     db.session.delete(category)
