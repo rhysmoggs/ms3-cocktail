@@ -29,15 +29,10 @@ def all_cocktails():
 @app.route("/filter_category/<int:category_id>")
 def filter_category(category_id):
 
-    category = Category.query.get_or_404(category_id)
-    print(category)
+    # category = Category.query.get_or_404(category_id)
     cocktails = list(mongo.db.cocktails.find({"category_id": str(category_id)}))
-    print(cocktails)
-
     return render_template("filter_category.html", cocktails=cocktails)
 
-
-########################
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
