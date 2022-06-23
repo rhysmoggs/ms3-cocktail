@@ -26,67 +26,15 @@ def all_cocktails():
     return render_template("all_cocktails.html", cocktails=cocktails)
 
 
-########################
 @app.route("/filter_category/<int:category_id>")
 def filter_category(category_id):
 
-    # tests, no idea
-    # categories = list(Category.query.order_by(Category.category_name).all())
-    # categories = Category.query.filter_by(id='2').first()
-    # category.category_name = request.form.get("category_name")
-    # category = Category(category_name=request.form.get("category_name"))
-    # categories = Category.query.filter(Category.category_name == 'sours').all()
-
-    # this works to get a specific category, ie 15 = sours
-    # cocktails = list(mongo.db.cocktails.find({"category_id": "15"}))
-
-    # dunno
-    # cocktails = list(mongo.db.cocktails.find({"category_id": "category.id"}))
-    # cocktails = list(mongo.db.cocktails.find({"category_id": ObjectId(category_id)}))
-
-    # finds the category that you click on:
     category = Category.query.get_or_404(category_id)
     print(category)
-
-    # tests,
-    # category.category_name = request.form.get("category_name")
-    # print()
-    # cocktails = list(mongo.db.cocktails.find("category_name"))
-    # cocktails = list(mongo.db.cocktails.find(category))
-    
-    # gives a list of cocktails but not specific to the category
-    # cocktails = list(mongo.db.cocktails.find())
-
-    cocktails = list(mongo.db.cocktails.find())
+    cocktails = list(mongo.db.cocktails.find({"category_id": str(category_id)}))
     print(cocktails)
 
-    # @app.route("/view_cocktail/<cocktail_id>")
-    # def view_cocktail(cocktail_id):
-    # cocktail = mongo.db.cocktails.find_one({"_id": ObjectId(cocktail_id)})
-    # return render_template("view_cocktail.html", cocktail=cocktail)
-
-
-    # cocktails = list(mongo.db.cocktails.find({“category_id”: {“$in”: category_id}}))
-    # print()
-    # tasks = list(mongo.db.tasks.find({"$text": {"$search": query}}))
-    # task = mongo.db.tasks.find_one({"_id": ObjectId(task_id)})
-
     return render_template("filter_category.html", cocktails=cocktails)
-
-
-# @app.route("/edit_category/<int:category_id>", methods=["GET", "POST"])
-# def edit_category(category_id):
-#     if "user" not in session or session["user"] != "admin":
-#         flash("You must be admin to manage categories!")
-#         return redirect(url_for("all_cocktails"))
-
-#     category = Category.query.get_or_404(category_id)
-#     if request.method == "POST":
-#         category.category_name = request.form.get("category_name")
-#         db.session.commit()
-#         flash("Category Updated")
-#         return redirect(url_for("get_categories"))
-#     return render_template("edit_category.html", category=category)
 
 
 ########################
