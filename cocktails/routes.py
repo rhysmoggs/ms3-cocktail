@@ -30,8 +30,11 @@ def all_cocktails():
 def filter_category(category_id):
 
     # category = Category.query.get_or_404(category_id)
+    # this below works, but pulls all categories for filter_category.html
+    # categories = list(Category.query.order_by(Category.category_name).all())
     cocktails = list(mongo.db.cocktails.find({"category_id": str(category_id)}))
-    return render_template("filter_category.html", cocktails=cocktails)
+    return render_template("filter_category.html",  cocktails=cocktails)
+    # return render_template("filter_category.html",  categories=categories, cocktails=cocktails)
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -134,6 +137,7 @@ def add_cocktail():
             "created_by": session["user"],
             "method": request.form.get("method"),
             "other_ingredient": request.form.getlist("other_ingredient"),
+            # "other_ingredient": request.form.get("other_ingredient").splitlines(),
             "prep_time": request.form.get("prep_time"),
             "servings": request.form.get("servings")
         }
@@ -188,11 +192,20 @@ def delete_cocktail(cocktail_id):
     return redirect(url_for("all_cocktails"))
 
 
+# @app.route("/view_cocktail/<cocktail_id>")
+# def view_cocktail(cocktail_id):
+
+#     cocktail = mongo.db.cocktails.find_one({"_id": ObjectId(cocktail_id)})
+#     return render_template("view_cocktail.html", cocktail=cocktail)
+
+
 @app.route("/view_cocktail/<cocktail_id>")
 def view_cocktail(cocktail_id):
 
     cocktail = mongo.db.cocktails.find_one({"_id": ObjectId(cocktail_id)})
-    return render_template("view_cocktail.html", cocktail=cocktail)
+    others = mongo.db.cocktails.find_one("other_ingredient")
+    print(others)
+    return render_template("view_cocktail.html", cocktail=cocktail, others=others)
 
 
 @app.route("/get_categories")

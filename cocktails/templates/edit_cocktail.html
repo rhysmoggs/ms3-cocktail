@@ -75,8 +75,9 @@
             <div class="row">
                 <div class="input-field col s12">
                     <i class="fas fa-glass-martini-alt prefix light-blue-text text-darken-4"></i>
-                    <input id="other_ingredient" name="other_ingredient" minlength="2" maxlength="25"
-                        value="{{ cocktail.other_ingredient }}" type="text" class="validate" required>
+                    <textarea id="other_ingredient" name="other_ingredient" minlength="2" maxlength="150"
+                        value="{{ cocktail.other_ingredient }}" class="materialize-textarea validate" required>
+                    </textarea>
                     <label for="other_ingredient">Other Ingredient</label>
                 </div>
             </div>
@@ -94,7 +95,7 @@
             <div class="row">
                 <div class="input-field col s12">
                     <i class="fas fa-glass-martini-alt prefix light-blue-text text-darken-4"></i>
-                    <input id="servings" name="servings" minlength="1" maxlength="25"
+                    <input id="servings" name="servings" minlength="1" maxlength="25" value="{{ cocktail.servings }}"
                         type="text" class="validate" required>
                     <label for="servings">Servings</label>
                 </div>
