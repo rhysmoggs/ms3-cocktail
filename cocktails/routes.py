@@ -173,6 +173,7 @@ def edit_cocktail(cocktail_id):
         }
         mongo.db.cocktails.update_one({"_id": ObjectId(cocktail_id)}, {"$set": submit})
         flash("Cocktail Successfully Updated")
+        return redirect(url_for("all_cocktails"))
 
     categories = list(Category.query.order_by(Category.category_name).all())
     return render_template("edit_cocktail.html", cocktail=cocktail, categories=categories)
@@ -203,9 +204,9 @@ def delete_cocktail(cocktail_id):
 def view_cocktail(cocktail_id):
 
     cocktail = mongo.db.cocktails.find_one({"_id": ObjectId(cocktail_id)})
-    others = mongo.db.cocktails.find_one("other_ingredient")
-    print(others)
-    return render_template("view_cocktail.html", cocktail=cocktail, others=others)
+    # others = mongo.db.cocktails.find_one("other_ingredient")
+    # print(others)
+    return render_template("view_cocktail.html", cocktail=cocktail)
 
 
 @app.route("/get_categories")

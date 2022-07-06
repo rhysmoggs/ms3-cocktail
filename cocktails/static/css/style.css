@@ -249,3 +249,12 @@ body, html {
   }
 
 /* carousel test end */
+
+
+.hide {
+    display: none;
+}
+
+.hide-edit {
+    display: none;
+}

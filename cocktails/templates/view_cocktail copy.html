@@ -30,15 +30,9 @@
                         <p>{{ cocktail.cocktail_description }}</p>
                         <p>Main Ingredient: {{ cocktail.main_ingredient }}</p>
                         <p>Method: {{ cocktail.method }}</p>
-                        <p>Other Ingredients:
-                            <ul>
-                            {% for ingredient in cocktail.other_ingredient %}
-                                <li>
-                                {{ ingredient }}
-                                </li>
-                            {% endfor %}
-                            </ul>
-                        </p>
+                        {% for other in cocktail.other_ingredient.splitlines() %}
+                            {{ other }}
+                        {% endfor %}
                         <p>Prep: {{ cocktail.prep_time }}</p>
                         <p>Servings: {{ cocktail.servings }}</p>
                     </div>

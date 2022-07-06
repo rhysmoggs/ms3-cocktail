@@ -63,15 +63,40 @@
                 <label for="method">Method</label>
             </div>
         </div>
-        <!-- other ingredient -->
-        <!-- <div class="row">
-            <div class="input-field col s12">
-                <i class="fas fa-glass-martini-alt prefix brown-text text-darken-4"></i>
-                <input id="other_ingredient" name="other_ingredient" minlength="2" maxlength="50"
-                    type="text" class="validate" required>
-                <label for="other_ingredient">Other Ingredient</label>
-            </div>
+        <!-- other ingredient test-->
+        <!-- <div class="chips chips-placeholder">
+            <i class="fas fa-glass-martini-alt prefix brown-text text-darken-4"></i>
+            <input class="custom-class">
         </div> -->
+
+        <!-- Ingredients section
+        <div class="row" >
+                <!-- <div class="ingredients center-align"> -->
+                    <!-- <h4><strong>Other Ingredients</strong></h4> -->
+                    <div class="row input-field col s12 add-ing" id="add-ing">
+                        <!-- <div class="container"> -->
+                            <div class="ingredients" id="other_ingredient">
+                                <div class="other_ingredient ingredient col l12">
+                                    <i class="fas fa-glass-martini-alt prefix brown-text text-darken-4"></i>
+                                    <input  id="other_ingredient" type="text"  name="other_ingredient" class="ingredients" required>
+                                    <label for="other_ingredient">OTHER INGREDIENTS</label>
+                                </div>
+                            </div>
+                        <!-- </div> -->
+                        <!-- <div class="input-field col s12"> -->
+                            <div class="col l6">
+                                <a class="btn-floating btn-small add-btn-ing waves-effect waves-light green" id="add-btn-ing" name="add-btn-ing"><i class="fas fa-plus"></i></a>
+                                <label for="add-btn-ing">Add</label>
+                            </div>
+                            <div class="col l6">
+                                <a class="btn-floating btn-small waves-effect waves-light red btn-remove" id="btn-remove"><i class="fas fa-minus"></i></a>
+                                <label for="btn-remove">Remove</label>
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                <!-- </div> -->
+        </div> -->
+
         <!-- other ingredient -->
         <div class="row">
             <div class="input-field col s12">
@@ -81,6 +106,10 @@
                 <label for="other_ingredient">Other Ingredient</label>
             </div>
         </div>
+
+
+
+
         <div class="row">
             <!-- preperation time -->
             <div class="input-field col s12 m6">
