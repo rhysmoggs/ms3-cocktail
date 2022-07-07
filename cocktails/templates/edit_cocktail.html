@@ -61,8 +61,8 @@
                         <label for="main_ingredient">Main Ingredient</label>
                     </div>
                 </div>
-                <!-- method -->
-                <div class="row">
+                <!-- method original -->
+                <!-- <div class="row">
                     <div class="input-field col s12">
                         <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
                         <textarea id="method" name="method" minlength="5"
@@ -70,6 +70,20 @@
                         {{- cocktail.method -}}
                         </textarea>
                         <label for="method">Method</label>
+                    </div>
+                </div> -->
+                <!-- method -->
+                <div class="row">
+                    <div id="new-method" class="input-field col s12">
+                        <i class="fas fa-align-left prefix light-blue-text text-darken-4"></i>
+                        {% for method in cocktail.method %}
+                        <input id="method" name="method" minlength="5" maxlength="75" value="{{ method }}" type="text" class="remove-meth remove-meth-btn validate" required>
+                        {% endfor %}
+                        <label for="method">Method</label>
+                    </div>
+                    <div class="col s6">
+                        <a id="add-meth-btn" class="waves-effect waves-light btn-large brown darken-1 text-shadow">Add</a>
+                        <a id="remove-meth-btn" class="waves-effect waves-light btn-large brown darken-1 text-shadow">Remove</a>
                     </div>
                 </div>
 
@@ -79,7 +93,7 @@
                         <i class="fas fa-glass-martini-alt prefix light-blue-text text-darken-4"></i>
                         {% for ingredient in cocktail.other_ingredient %}
                         <input id="other_ingredient" name="other_ingredient" minlength="2" maxlength="20"
-                            value="{{ ingredient }}"  type="text" class="js-remove-test remove-other-btn validate" required>
+                            value="{{ ingredient }}" type="text" class="js-remove-test remove-other-btn validate" required>
                         {% endfor %}
                         <label for="other_ingredient">Other Ingredient</label>
                     </div>

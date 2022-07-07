@@ -10,6 +10,11 @@ $(document).ready(function () {
     });
     $(".tooltipped").tooltip();
     $("select").formSelect();
+    $('.modal').modal({
+        // startingTop: '50%',
+        // endingTop: '30%',
+        opacity: 0.8
+    });
     $(".datepicker").datepicker({
         format: "dd mmmm, yyyy",
         yearRange: 3,
@@ -78,12 +83,12 @@ add_meth_btn.onclick = function() {
         add_meth_btn.classList.add("disabled");
     } else {
     var newMethod = document.createElement('input');
-    newMethod.setAttribute('name', 'other_ingredient');
+    newMethod.setAttribute('name', 'method');
     newMethod.setAttribute('minlength', '5');
     newMethod.setAttribute('max-length', '75');
     newMethod.setAttribute('class', 'remove-meth remove-meth-btn validate');
     newMethod.setAttribute('type', 'text');
-    newMethod.setAttribute('placeholder', 'Add more ingredients and measurements');
+    newMethod.setAttribute('placeholder', 'Add another step');
     newMethod.required = true;
     new_method.appendChild(newMethod);
     remove_meth_btn.classList.remove("disabled");
