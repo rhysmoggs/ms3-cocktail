@@ -251,10 +251,19 @@ body, html {
 /* carousel test end */
 
 
+/* dont think it's used */
 .hide {
     display: none;
 }
 
-.hide-edit {
-    display: none;
+/* to overwrite default materializecss pagination style, centre page numbers */
+.pagination {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+}
+
+/* to overwrite default materializecss pagination style, centre page info */
+.pagination-page-info {
+    text-align: center;
 }
