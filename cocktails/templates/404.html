@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+<h3 class="light-blue-text text-darken-4 center-align">Ooooopsie! Drinks were spilled...</h3>
+
+<div class="container error-image">
+</div>
+
+<div class="error-text center-align">
+  <p>Let's get you home.</p>
+    <a href="{{ url_for('home') }}" class="btn-small green accent-4">The Cocktail Cabinet</a>
+</div>
+
+
+{% endblock %}

@@ -6,9 +6,9 @@
 
 <div class="hero-image">
   <div class="hero-text">
-    <h1>Share a Drink With Us</h1>
+    <h1>The Cocktail Cabinet</h1>
     <p>Share a Drink With Us</p>
-    {% if session.user  %}
+    {% if session.user %}
       <a href="{{ url_for('profile', username=session['user']) }}" class="btn-small green accent-4">My Cabinet</a>
     {% else %}
       <a href="{{ url_for('login') }}" class="btn-small green accent-4">Log In</a>
@@ -86,9 +86,8 @@
   </div>
 </section>
 
-<section id="subscribe-section">
+<!-- <section id="subscribe-section">
   <div class="subscribe-container">
-      <!-- <h4>Newsletter</h4> -->
       <form action="https://formdump.codeinstitute.net" method="POST">
         <fieldset>
           <div>
@@ -102,7 +101,7 @@
           </button>
       </form>
   </div>
-</section>
+</section> -->
 
 
 

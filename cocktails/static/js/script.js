@@ -15,19 +15,19 @@ $(document).ready(function () {
         // endingTop: '30%',
         opacity: 0.8
     });
-    $(".datepicker").datepicker({
-        format: "dd mmmm, yyyy",
-        yearRange: 3,
-        showClearBtn: true,
-        i18n: {
-            done: "Select"
-        }
-    });
+    // $(".datepicker").datepicker({
+    //     format: "dd mmmm, yyyy",
+    //     yearRange: 3,
+    //     showClearBtn: true,
+    //     i18n: {
+    //         done: "Select"
+    //     }
+    // });
     // $('.chips').chips();
-    $('.chips-placeholder').chips({
-        placeholder: 'Enter Ingredient',
-        secondaryPlaceholder: 'Add Ingredient',
-    });
+    // $('.chips-placeholder').chips({
+    //     placeholder: 'Enter Ingredient',
+    //     secondaryPlaceholder: 'Add Ingredient',
+    // });
 
     validateMaterializeSelect();
     function validateMaterializeSelect() {

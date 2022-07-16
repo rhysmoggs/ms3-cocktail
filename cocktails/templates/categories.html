@@ -11,6 +11,7 @@
         </div>
     </div>
 
+    {% if categories|length > 0 %}
     <div class="row">
         {% for category in categories %}
         <div class="col s12 m3">
@@ -37,5 +38,8 @@
         </div>
         {% endfor %}
     </div>
+    {% else %}
+        <h3 class="red-text text-darken-4 center-align">No Cocktail Categories Added</h3>
+    {% endif %}
 
 {% endblock %}
