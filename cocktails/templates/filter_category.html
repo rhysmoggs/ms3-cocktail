@@ -2,7 +2,8 @@
 {% block content %}
 
 
-    <h3 class="light-blue-text text-darken-4 center-align">Filtered Categories/Cocktails</h3>
+    <!-- <h3 class="light-blue-text text-darken-4 center-align">Filtered Categories/Cocktails</h3> -->
+    <h3 class="light-blue-text text-darken-4 center-align">{{ category.category_name }} Cocktails</h3>
 
     {% if cocktails|length > 0 %}
     <div class="row">

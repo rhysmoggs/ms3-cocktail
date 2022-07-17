@@ -51,12 +51,9 @@ def all_cocktails():
                                            per_page_parameter='per_page')
     per_page = 9
     offset = (page - 1) * per_page
-    # total = mongo.db.cocktails.find().count()
     cocktails = list(mongo.db.cocktails.find())
     total = len(cocktails)
     cocktails_paginated = cocktails[offset: offset + per_page]
-    # get_cocktails(offset=0, per_page=10) = cocktails[offset: offset + per_page]
-    # pagination_users = cocktails_paginated(offset=offset, per_page=per_page)
     pagination = Pagination(page=page, per_page=per_page, total=total,
                             css_framework='materializecss')
     return render_template("all_cocktails.html",
@@ -67,9 +64,13 @@ def all_cocktails():
                            pagination=pagination)
 
 
+# @app.route("/filter_category/<int:category_id>")
+# def filter_category(category_id):
+#     cocktails = list(mongo.db.cocktails.find({"category_id": str(category_id)}))
+#     return render_template("filter_category.html",  cocktails=cocktails)
+
 @app.route("/filter_category/<int:category_id>")
 def filter_category(category_id):
-
     # category = Category.query.get_or_404(category_id)
     # this below works, but pulls all categories for filter_category.html
     # categories = list(Category.query.order_by(Category.category_name).all())
@@ -78,11 +79,30 @@ def filter_category(category_id):
     # return render_template("filter_category.html",  categories=categories, cocktails=cocktails)
 
 
-@app.route("/search", methods=["GET", "POST"])
+@app.route("/search")
 def search():
-    query = request.form.get("query")
+    query = request.args.get("query")
+    page, per_page, offset = get_page_args(page_parameter='page',
+                                           per_page_parameter='per_page')
+    per_page = 9
+    offset = (page - 1) * per_page
     cocktails = list(mongo.db.cocktails.find({"$text": {"$search": query}}))
-    return render_template("all_cocktails.html", cocktails=cocktails)
+    total = len(cocktails)
+    cocktails_paginated = cocktails[offset: offset + per_page]
+    pagination = Pagination(page=page, per_page=per_page, total=total,
+                            css_framework='materializecss')
+    return render_template("all_cocktails.html",
+                           cocktails=cocktails_paginated,
+                           page=page,
+                           per_page=per_page,
+                           pagination=pagination)
+
+
+# @app.route("/search", methods=["GET", "POST"])
+# def search():
+#     query = request.form.get("query")
+#     cocktails = list(mongo.db.cocktails.find({"$text": {"$search": query}}))
+#     return render_template("all_cocktails.html", cocktails=cocktails)
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -94,6 +114,11 @@ def register():
 
         if existing_user:
             flash("Username already exists")
+            return redirect(url_for("register"))
+        
+        #check to see if passwords match or not:
+        if request.form.get("password") != request.form.get("confirm-password"):
+            flash("Passwords do not match. Please tyry again.")
             return redirect(url_for("register"))
 
         # create a dictionary
@@ -107,7 +132,9 @@ def register():
 
         # put the new user into 'session' cookie
         session["user"] = request.form.get("username").lower()
-        flash("Registration Successful!")
+        # flash("Registration Successful!")
+        flash("Registration Successful! Welcome, {}".format(
+                            request.form.get("username")))
         return redirect(url_for("profile", username=session["user"]))
 
     return render_template("register.html")
@@ -150,6 +177,15 @@ def profile(username):
     if "user" in session:
         cocktails = list(mongo.db.cocktails.find())
         return render_template("profile.html", username=session["user"], cocktails=cocktails)
+
+    # if session["user"] == "admin":
+    #     cocktails = list(mongo.db.cocktails.find())
+    #     return render_template("profile.html", username=session["user"], cocktails=cocktails)
+    
+
+    # if session["user"] == "admin" or "user" in session:
+    #     cocktails = list(mongo.db.cocktails.find())
+    #     return render_template("profile.html", username=session["user"], cocktails=cocktails)
 
     return redirect(url_for("login"))
 
