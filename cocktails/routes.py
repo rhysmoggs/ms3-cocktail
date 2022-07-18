@@ -191,6 +191,32 @@ def profile(username):
     return redirect(url_for("login"))
 
 
+###########################################################################################################
+## test begins here for deleting user
+###########################################################################################################
+
+
+# use post method? if POST:
+# @app.route("/delete_user/<username>") use post and get
+# def delete_user(username):
+#     if "user" not in session:
+#         flash("You must be logged in to use this function.")
+#         return redirect(url_for("all_cocktails"))
+
+#     user = Users.query.get_or_404(username)
+#     print(user)
+#     db.session.delete(user)
+#     db.session.commit()
+#     mongo.db.cocktails.delete_many({"created_by": str(username)})
+#     flash("User Deleted")
+#     return redirect(url_for("login.html"))
+
+
+###########################################################################################################
+## test ends here for deleting user
+###########################################################################################################
+
+
 @app.route("/logout")
 def logout():
     # remove user from session cookie

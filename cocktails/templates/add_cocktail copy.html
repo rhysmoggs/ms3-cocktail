@@ -9,7 +9,7 @@
             <!-- cocktail name -->
             <div class="row">
                 <div class="input-field col s12">
-                    <i class="fas fa-glass-martini-alt prefix brown-text text-darken-4 tooltipped" data-position="bottom" data-tooltip="Cocktail Name must be between 2 and 25 characters long"></i>
+                    <i class="fas fa-glass-martini-alt prefix brown-text text-darken-4"></i>
                     <input id="cocktail_name" name="cocktail_name" minlength="2" maxlength="25" type="text" class="validate"
                         required>
                     <label for="cocktail_name">Cocktail Name</label>
@@ -18,7 +18,7 @@
             <div class="row">
                 <!-- cocktail category -->
                 <div class="input-field col s6">
-                    <i class="fas fa-folder-open prefix brown-text text-darken-4 tooltipped" data-position="bottom" data-tooltip="Choose a Category from the menu"></i>
+                    <i class="fas fa-folder-open prefix brown-text text-darken-4"></i>
                     <select id="category_id" name="category_id" class="validate" required>
                         <option value="" disabled selected>Choose Category</option>
                         {% for category in categories %}
@@ -28,11 +28,13 @@
                     <label for="category_id">Cocktail Category</label>
                 </div>
                 <!-- main ingredient -->
-                <div class="input-field col s6">
-                    <i class="fas fa-glass-martini-alt prefix brown-text text-darken-4"></i>
-                    <input id="main_ingredient" name="main_ingredient" minlength="2" maxlength="25"
-                        type="text" class="validate" required>
-                    <label for="main_ingredient">Main Ingredient</label>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <i class="fas fa-glass-martini-alt prefix brown-text text-darken-4"></i>
+                        <input id="main_ingredient" name="main_ingredient" minlength="2" maxlength="25"
+                            type="text" class="validate" required>
+                        <label for="main_ingredient">Main Ingredient</label>
+                    </div>
                 </div>
             </div>
             <!-- cocktail image test, for image -->

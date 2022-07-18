@@ -8,6 +8,7 @@ $(document).ready(function () {
     $('.carousel').carousel({
         numVisible: 4,
     });
+    $("#copyright").text(new Date().getFullYear());
     $(".tooltipped").tooltip();
     $("select").formSelect();
     $('.modal').modal({

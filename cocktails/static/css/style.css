@@ -112,6 +112,10 @@ footer {
     font-size: 2rem;
 }
 
+.hint {
+    font-size: 1.2rem;
+}
+
 .flashes h4 {
     line-height: 2;
 }
